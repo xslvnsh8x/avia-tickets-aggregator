@@ -178,6 +178,11 @@ export default Vue.extend({
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: #FFF;
+  cursor: pointer;
+}
+
+.show-more:hover {
+  background: #1c7dcb;
 }
 
 @media (min-width: 991.98px) {
