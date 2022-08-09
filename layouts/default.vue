@@ -17,15 +17,13 @@ export default {
 
 </script>
 
-<style>
-body {
-  margin: 0;
-  padding: 0;
-}
-
+<style scoped>
 .layout {
   display: grid;
   grid-template-rows: auto 1fr;
+  gap: 20px;
   height: 100vh;
+  background: #F3F7FA;
+  overflow: hidden;
 }
 </style>
