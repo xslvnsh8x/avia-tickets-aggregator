@@ -11,3 +11,7 @@ html {
   line-height: 21px;
   color: #4A4A4A;
 }
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}

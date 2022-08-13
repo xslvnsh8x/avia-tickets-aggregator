@@ -1,5 +1,9 @@
 <template>
   <div class="main-page">
+    <div class="search-wrapper">
+      <SearchBar/>
+    </div>
+
     <div class="aside">
       <div class="aside-item">
         <div class="aside-item-heading">
@@ -79,31 +83,40 @@
 <script lang="ts">
 import Vue from 'vue'
 import TicketListItem from "~/components/ticket-list-item/ticket-list-item.vue";
+import SearchBar from "~/components/search-bar/search-bar.vue";
 
 export default Vue.extend({
   name: 'IndexPage',
-  components: {TicketListItem},
+  components: {SearchBar, TicketListItem},
 })
 </script>
 
 <style scoped>
 .main-page {
   display: grid;
-  grid-template-columns: 232px 1fr;
+  grid-template:
+    'search-wrapper search-wrapper' 60px
+    'aside main' / 232px 1fr;
   gap: 20px;
   padding: 0 16px 16px;
+}
+
+.search-wrapper {
+  grid-area: search-wrapper;
 }
 
 .aside {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  grid-area: aside;
 }
 
 .main {
   display: grid;
   grid-template-rows: 50px 1fr 50px;
   gap: 20px;
+  grid-area: main;
 }
 
 .content {
