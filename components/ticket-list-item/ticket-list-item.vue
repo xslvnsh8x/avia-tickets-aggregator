@@ -2,36 +2,89 @@
   <div class="item-wrapper">
     <div class="header">
       <div class="price">
-        13 400 Р
+        {{ ticket.price }} P
       </div>
 
       <div class="logo">
-        <img :src="require('~/assets/images/logo_s7.png')" alt="logo">
+        <img :src="logoImg" alt="logo">
       </div>
     </div>
 
     <div class="content">
       <div class="schedule">
-        <div class="content-title">MOW – HKT</div>
-        <div class="content-value">10:45 – 08:00</div>
+        <div class="content-title">
+          {{ ticket.info.origin }} – {{ ticket.info.destination }}
+        </div>
+        <div class="content-value">
+          {{ formatTime(ticket.info.dateStart) }} – {{ formatTime(ticket.info.dateEnd) }}
+        </div>
       </div>
 
       <div class="time">
         <div class="content-title">В пути</div>
-        <div class="content-value">21ч 15м</div>
+        <div class="content-value">
+          {{ convertMsToHM(ticket.info.duration) }}
+        </div>
       </div>
 
       <div class="transfers">
-        <div class="content-title">2 пересадки</div>
-        <div class="content-value">HKG, JNB</div>
+        <div class="content-title">
+          {{ ticket.info.stops.length ? `${ticket.info.stops.length} пересадки` :  'Без пересадок'}}
+        </div>
+        <div class="content-value">
+          {{ ticket.info.stops.join(', ') }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import type {PropType} from 'vue'
+import { format } from 'date-fns'
+import { CompanyDto, TicketDto } from '~/core/entities/consts'
+
 export default {
-  name: "ticket-list-item"
+  name: "ticket-list-item",
+  props: {
+    ticket: {
+      type: Object as PropType<TicketDto>,
+      required: true,
+    },
+    companies: {
+      type: Array as PropType<CompanyDto[]>,
+      required: true,
+    },
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    logoImg(): string {
+      const path = this.companies?.find((item: CompanyDto) => item.id === this.ticket?.companyId)?.logo
+      return path ? require(`~/assets/images/${path}`) : ''
+    },
+  },
+  methods: {
+    formatTime(value: string) {
+      return format(new Date(value), 'HH:mm')
+    },
+    padTo2Digits(num: number) {
+      return num.toString().padStart(2, '0');
+    },
+    convertMsToHM(milliseconds: number) {
+      let seconds = Math.floor(milliseconds / 1000);
+      let minutes = Math.floor(seconds / 60);
+      let hours = Math.floor(minutes / 60);
+
+      seconds = seconds % 60;
+      minutes = seconds >= 30 ? minutes + 1 : minutes;
+      minutes = minutes % 60;
+      hours = hours % 24;
+
+      return `${this.padTo2Digits(hours)}ч ${this.padTo2Digits(minutes)}м`;
+    }
+  },
 }
 </script>
 
@@ -44,7 +97,6 @@ export default {
   border-radius: 5px;
   background: #FFF;
   box-shadow: 0 2px 8px rgba(0 0 0 / 10%);
-  overflow: hidden;
 }
 
 .header {
@@ -56,6 +108,7 @@ export default {
 .content {
   display: flex;
   gap: 20px;
+  align-items: center;
   justify-content: space-between;
 }
 

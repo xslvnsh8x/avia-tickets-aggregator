@@ -1,5 +1,5 @@
 // сам билет, включает в себя остальные сущности
-export interface Ticket {
+export interface TicketDto {
   id: string;
   // Цена в рублях
   price: number;
@@ -22,11 +22,8 @@ export interface Ticket {
   };
 }
 
-// Список кодов городов. Мы в каждом билете будем лететь с MOW в EKT
-export type CityCodes = 'MOW' | 'HKT' | 'HKG' | 'JNB' | 'PTB' | 'ARH' | 'TRN' | 'KRS' | 'SRT' | 'LOS' | 'EKV' | 'EKT';
-
 // компания
-export interface Company {
+export interface CompanyDto {
   id: string;
   // Название компании
   name: string;
@@ -34,3 +31,6 @@ export interface Company {
   // Т.к. картинки пока храниться будут у Вас локально - имя и путь к картинке можете замапить на те что будут у вас
   logo: string;
 }
+
+// Список кодов городов. Мы в каждом билете будем лететь с MOW в EKT
+export type CityCodes = 'MOW' | 'HKT' | 'HKG' | 'JNB' | 'PTB' | 'ARH' | 'TRN' | 'KRS' | 'SRT' | 'LOS' | 'EKV' | 'EKT';

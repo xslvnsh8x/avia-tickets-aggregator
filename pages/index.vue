@@ -66,9 +66,13 @@
       </div>
 
       <div class="content">
-        <TicketListItem/>
-
-        <TicketListItem/>
+        <template v-for="item in ticketsList">
+          <TicketListItem
+            :key='item.id'
+            :ticket='item'
+            :companies="companiesList"
+          />
+        </template>
       </div>
 
       <div class="footer">
@@ -84,22 +88,18 @@
 import Vue from 'vue'
 import TicketListItem from "~/components/ticket-list-item/ticket-list-item.vue";
 import SearchBar from "~/components/search-bar/search-bar.vue";
-import { mapActions, mapState } from 'vuex'
 
 export default Vue.extend({
   name: 'IndexPage',
   components: {SearchBar, TicketListItem},
-
   computed: {
     ticketsList() {
       return [...this.$store.state.tickets]
     },
-
     companiesList() {
       return [...this.$store.state.companies]
-    }
+    },
   },
-
   async fetch() {
     await this.$store.dispatch('getTickets')
     await this.$store.dispatch('getCompanies')
@@ -114,7 +114,9 @@ export default Vue.extend({
     'search-wrapper search-wrapper' 60px
     'aside main' / 232px 1fr;
   gap: 20px;
-  padding: 0 16px 16px;
+  margin-top: -4px;
+  padding: 4px 16px 16px;
+  overflow: hidden;
 }
 
 .search-wrapper {
@@ -133,12 +135,17 @@ export default Vue.extend({
   grid-template-rows: 50px 1fr 50px;
   gap: 20px;
   grid-area: main;
+  padding: 4px;
+  margin: -4px;
+  overflow: hidden;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-height: 100%;
+  overflow: auto;
 }
 
 .tabs {
@@ -216,13 +223,13 @@ export default Vue.extend({
 
 @media (min-width: 991.98px) {
   .main-page {
-    padding: 0 calc(50vw - 480px) 16px;
+    padding: 4px calc(50vw - 480px) 16px;
   }
 }
 
 @media (min-width: 1199.98px) {
   .main-page {
-    padding: 0 calc(50% - 590px) 16px;
+    padding: 4px calc(50% - 590px) 16px;
   }
 }
 </style>
