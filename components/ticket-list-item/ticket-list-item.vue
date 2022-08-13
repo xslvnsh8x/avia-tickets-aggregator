@@ -61,6 +61,8 @@ export default {
   },
   computed: {
     logoImg(): string {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const path = this.companies?.find((item: CompanyDto) => item.id === this.ticket?.companyId)?.logo
       return path ? require(`~/assets/images/${path}`) : ''
     },
