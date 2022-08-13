@@ -84,10 +84,26 @@
 import Vue from 'vue'
 import TicketListItem from "~/components/ticket-list-item/ticket-list-item.vue";
 import SearchBar from "~/components/search-bar/search-bar.vue";
+import { mapActions, mapState } from 'vuex'
 
 export default Vue.extend({
   name: 'IndexPage',
   components: {SearchBar, TicketListItem},
+
+  computed: {
+    ticketsList() {
+      return [...this.$store.state.tickets]
+    },
+
+    companiesList() {
+      return [...this.$store.state.companies]
+    }
+  },
+
+  async fetch() {
+    await this.$store.dispatch('getTickets')
+    await this.$store.dispatch('getCompanies')
+  },
 })
 </script>
 
